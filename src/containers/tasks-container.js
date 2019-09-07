@@ -24,17 +24,21 @@ export const TasksContainer = () => {
     changeNewTaskName("");
   };
 
-  const deleteTask = taskId => {
-    const TaskListWithoutDeletedTask = tasks.filter(({ id }) => id !== taskId);
+  const deleteTask = deletingTaskId => {
+    const TaskListWithoutDeletedTask = tasks.filter(
+      ({ id }) => id !== deletingTaskId
+    );
     setTasks(TaskListWithoutDeletedTask);
   };
 
-  const toggleTaskStatus = taskId => {
+  const toggleTaskStatus = togglingTaskId => {
     const toggledTasks = tasks.reduce(
-      (acc, task) =>
-        task.id === taskId
-          ? [...acc, { ...task, status: task.status === "done" ? "" : "done" }]
-          : [...acc, task],
+      (acc, task) => [
+        ...acc,
+        togglingTaskId === task.id
+          ? { ...task, status: task.status === "done" ? "" : "done" }
+          : task
+      ],
       []
     );
     setTasks(toggledTasks);
