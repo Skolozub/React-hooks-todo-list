@@ -2,19 +2,29 @@ import React from "react";
 import { ListGroup, ButtonGroup, Button } from "react-bootstrap";
 import styled from "styled-components";
 
-export const TasksListItem = ({ id, taskName, status, deleteTask }) => (
+export const TasksListItem = ({
+  id,
+  taskName,
+  status,
+  deleteTask,
+  toggleTaskStatus
+}) => (
   <ListGroup.Item variant={status === "done" && "secondary"}>
     <ButtonToolbar>
       <Text>{taskName}</Text>
       {status === "done" ? (
         <ButtonGroup>
-          <Button variant="secondary">not&nbsp;done</Button>
+          <Button variant="secondary" onClick={() => toggleTaskStatus(id)}>
+            not&nbsp;done
+          </Button>
           <Button variant="danger" onClick={() => deleteTask(id)}>
             delete
           </Button>
         </ButtonGroup>
       ) : (
-        <Button variant="success">done</Button>
+        <Button variant="success" onClick={() => toggleTaskStatus(id)}>
+          done
+        </Button>
       )}
     </ButtonToolbar>
   </ListGroup.Item>
