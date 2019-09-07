@@ -11,7 +11,8 @@ export const TasksContainer = () => {
     e.preventDefault();
     if (newTaskName === "") return null;
 
-    const lastTaskIndex = tasks[tasks.length - 1].id;
+    const lastTaskIndex = tasks.length && tasks[tasks.length - 1].id;
+
     const newTasks = [
       ...tasks,
       {
