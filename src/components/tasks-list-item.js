@@ -2,14 +2,16 @@ import React from "react";
 import { ListGroup, ButtonGroup, Button } from "react-bootstrap";
 import styled from "styled-components";
 
-export const TasksListItem = props => (
-  <ListGroup.Item variant={props.status === "done" && "secondary"}>
+export const TasksListItem = ({ id, taskName, status, deleteTask }) => (
+  <ListGroup.Item variant={status === "done" && "secondary"}>
     <ButtonToolbar>
-      <Text>{props.taskName}</Text>
-      {props.status === "done" ? (
+      <Text>{taskName}</Text>
+      {status === "done" ? (
         <ButtonGroup>
           <Button variant="secondary">not&nbsp;done</Button>
-          <Button variant="danger">delete</Button>
+          <Button variant="danger" onClick={() => deleteTask(id)}>
+            delete
+          </Button>
         </ButtonGroup>
       ) : (
         <Button variant="success">done</Button>

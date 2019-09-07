@@ -9,9 +9,13 @@ import {
 
 export const TasksAddPanel = props => (
   <ListGroup.Item>
-    <Form>
+    <Form onSubmit={props.onSubmitHandler}>
       <InputGroup className="mb-3">
-        <FormControl placeholder="Enter new task" />
+        <FormControl
+          onChange={props.onChangeHandler}
+          value={props.value}
+          placeholder="Enter new task"
+        />
         <InputGroup.Append>
           <Button variant="primary" type="submit">
             Add
