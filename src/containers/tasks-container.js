@@ -18,7 +18,7 @@ export const TasksContainer = () => {
       {
         id: lastTaskIndex + 1,
         taskName: newTaskName,
-        status: null
+        isDone: false
       }
     ];
     setTasks(newTasks);
@@ -36,9 +36,7 @@ export const TasksContainer = () => {
     const toggledTasks = tasks.reduce(
       (acc, task) => [
         ...acc,
-        togglingTaskId === task.id
-          ? { ...task, status: task.status === "done" ? "" : "done" }
-          : task
+        togglingTaskId === task.id ? { ...task, isDone: !task.isDone } : task
       ],
       []
     );

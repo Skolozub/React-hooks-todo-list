@@ -5,14 +5,14 @@ import styled from "styled-components";
 export const TasksListItem = ({
   id,
   taskName,
-  status,
+  isDone,
   deleteTask,
   toggleTaskStatus
 }) => (
-  <ListGroup.Item variant={status === "done" && "secondary"}>
+  <ListGroup.Item variant={isDone && "secondary"}>
     <ButtonToolbar>
       <Text>{taskName}</Text>
-      {status === "done" ? (
+      {isDone ? (
         <ButtonGroup>
           <Button variant="secondary" onClick={() => toggleTaskStatus(id)}>
             not&nbsp;done
