@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TasksAddPanel } from "../components/tasks-add-panel";
 import { TasksList } from "../components/tasks-list";
 import { tasksList } from "../constants/tasks";
@@ -24,8 +24,10 @@ export const TasksContainer = () => {
       }
     ];
     setTasks(newTasks);
-    changeNewTaskName("");
+    cleanInputValue();
   };
+
+  const cleanInputValue = () => changeNewTaskName("");
 
   const deleteTask = deletingTaskId => {
     const TaskListWithoutDeletedTask = tasks.filter(
@@ -47,6 +49,26 @@ export const TasksContainer = () => {
 
   const [filter, setFilter] = useState("all");
 
+  const applyFilter = (type, data) => {
+    switch (type) {
+      case "all": {
+        return data;
+      }
+
+      case "done": {
+        return data.filter(({ isDone }) => isDone);
+      }
+
+      case "notdone": {
+        return data.filter(({ isDone }) => !isDone);
+      }
+
+      default: {
+        return data;
+      }
+    }
+  };
+
   return (
     <>
       <Header>
@@ -58,11 +80,13 @@ export const TasksContainer = () => {
           />
         </HeaderLeftSide>
         <HeaderRightSide>
-          <TasksFilter />
+          <TasksFilter
+            onChangeHandler={e => setFilter(e.currentTarget.value)}
+          />
         </HeaderRightSide>
       </Header>
       <TasksList
-        tasks={tasks}
+        tasks={applyFilter(filter, tasks)}
         deleteTask={deleteTask}
         toggleTaskStatus={toggleTaskStatus}
       />
