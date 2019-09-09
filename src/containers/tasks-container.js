@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { TasksAddPanel } from "../components/tasks-add-panel";
 import { TasksList } from "../components/tasks-list";
 import { tasksList } from "../constants/tasks";
+import { TasksFilter } from "../components/tasks-filter";
+import styled from "styled-components";
 
 export const TasksContainer = () => {
   const [tasks, setTasks] = useState(tasksList);
@@ -43,13 +45,22 @@ export const TasksContainer = () => {
     setTasks(toggledTasks);
   };
 
+  const [filter, setFilter] = useState("all");
+
   return (
     <>
-      <TasksAddPanel
-        value={newTaskName}
-        onSubmitHandler={addNewTask}
-        onChangeHandler={e => changeNewTaskName(e.currentTarget.value)}
-      />
+      <Header>
+        <HeaderLeftSide>
+          <TasksAddPanel
+            value={newTaskName}
+            onSubmitHandler={addNewTask}
+            onChangeHandler={e => changeNewTaskName(e.currentTarget.value)}
+          />
+        </HeaderLeftSide>
+        <HeaderRightSide>
+          <TasksFilter />
+        </HeaderRightSide>
+      </Header>
       <TasksList
         tasks={tasks}
         deleteTask={deleteTask}
@@ -58,3 +69,15 @@ export const TasksContainer = () => {
     </>
   );
 };
+
+const Header = styled.div`
+  display: flex;
+  padding: 0.75rem 1.25rem;
+`;
+const HeaderLeftSide = styled.div`
+  width: 68%;
+  margin-right: 2%;
+`;
+const HeaderRightSide = styled.div`
+  width: 30%;
+`;
