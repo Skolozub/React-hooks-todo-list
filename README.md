@@ -14,4 +14,4 @@ npm start
 
 [codesandbox example](https://codesandbox.io/s/react-hooks-todo-list-sknor)
 
-![screenshot](https://github.com/Skolozub/React-pagination-with-get-params-in-URL/screenshot.jpg)
+![screenshot](https://github.com/Skolozub/React-hooks-todo-list/blob/master/screenshot.jpg)
