@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { TasksAddPanel } from "../components/tasks-add-panel";
 import { TasksList } from "../components/tasks-list";
-import { tasksList } from "../constants/tasks";
 import { TasksFilter } from "../components/tasks-filter";
-import styled from "styled-components";
+import { Header } from "../components/header";
+import { tasksList } from "../constants/tasks";
 
 export const TasksContainer = () => {
   const [tasks, setTasks] = useState(tasksList);
-  const [newTaskName, changeNewTaskName] = useState("");
+  const [newTaskName, setNewTaskName] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  // ------------------------ add panel methods ------------------------
+
+  const setNewTaskNameHandler = e => setNewTaskName(e.currentTarget.value);
+
+  const cleanInputValue = () => setNewTaskName("");
 
   const addNewTask = e => {
     e.preventDefault();
@@ -27,7 +34,7 @@ export const TasksContainer = () => {
     cleanInputValue();
   };
 
-  const cleanInputValue = () => changeNewTaskName("");
+  // ------------------------ task list methods ------------------------
 
   const deleteTask = deletingTaskId => {
     const TaskListWithoutDeletedTask = tasks.filter(
@@ -47,9 +54,11 @@ export const TasksContainer = () => {
     setTasks(toggledTasks);
   };
 
-  const [filter, setFilter] = useState("all");
+  // -------------------------- filter methods -------------------------
 
-  const applyFilter = (type, data) => {
+  const setFilterHandler = e => setFilter(e.currentTarget.value);
+
+  const applyFilter = (data, type) => {
     switch (type) {
       case "all": {
         return data;
@@ -69,39 +78,30 @@ export const TasksContainer = () => {
     }
   };
 
+  const filteredTasks = useMemo(() => applyFilter(tasks, filter), [
+    tasks,
+    filter
+  ]);
+
   return (
     <>
       <Header>
-        <HeaderLeftSide>
+        <Header.LeftSide>
           <TasksAddPanel
             value={newTaskName}
             onSubmitHandler={addNewTask}
-            onChangeHandler={e => changeNewTaskName(e.currentTarget.value)}
+            onChangeHandler={setNewTaskNameHandler}
           />
-        </HeaderLeftSide>
-        <HeaderRightSide>
-          <TasksFilter
-            onChangeHandler={e => setFilter(e.currentTarget.value)}
-          />
-        </HeaderRightSide>
+        </Header.LeftSide>
+        <Header.RightSide>
+          <TasksFilter onChangeHandler={setFilterHandler} />
+        </Header.RightSide>
       </Header>
       <TasksList
-        tasks={applyFilter(filter, tasks)}
+        tasks={filteredTasks}
         deleteTask={deleteTask}
         toggleTaskStatus={toggleTaskStatus}
       />
     </>
   );
 };
-
-const Header = styled.div`
-  display: flex;
-  padding: 0.75rem 1.25rem;
-`;
-const HeaderLeftSide = styled.div`
-  width: 68%;
-  margin-right: 2%;
-`;
-const HeaderRightSide = styled.div`
-  width: 30%;
-`;
